@@ -1,0 +1,309 @@
+#include<bits/stdc++.h>
+using namespace std;
+#include <unistd.h>
+#define fr(i,n) for(int i{0};i<n;i++)
+#define PB push_back
+typedef long long ll;
+#define double long double;
+#define arrin(A,n) for(int i{0}; i<n; i++) cin>>A[i];
+#define arrout(A,n) for(int i{0}; i<n; i++) cout<<A[i];
+typedef vector<int> vi;
+
+void endtimer(){
+    string time="######";
+    cout<<time;
+    fr(i,6){
+       // for(int j{0}; j<=i; j++){}
+        cout<<"\b \b";
+        cout<<flush;
+        sleep(1);
+    }
+    cout<<"\n";
+}
+
+int win(char A[10][10], char c1 ,char c2){
+    //check linear for p1 
+    fr(i,10){
+        fr(j,7){
+        if(A[i][j]==c1 && A[i][j+1]==c1 && A[i][j+2]==c1 && A[i][j+3]==c1) return 1;
+        }
+    }
+    //check vertical for p1
+    fr(i,7){
+        fr(j,10){
+            if(A[i][j]==c1 && A[i+1][j]==c1 && A[i+2][j]==c1 && A[i+3][j]==c1) return 1;
+        }
+    }
+
+    //check principal diagonal for p1
+    for(int i=3; i<10;i++) {
+        fr(j,7){
+            if(A[i][j]==c1 && A[i-1][j+1]==c1 && A[i-2][j+2]==c1 && A[i-3][j+3]==c1) return 1;
+        }
+    }
+    //check geometrical diagonal for p1
+    for(int i=3; i<10;i++) {
+        for(int j=9; j>=3; j--){
+            if(A[i][j]==c1 && A[i-1][j-1]==c1 && A[i-2][j-2]==c1 && A[i-3][j-3]==c1) return 1;
+        }
+    }
+
+    //check linear for p1
+    fr(i,10){
+        fr(j,7){
+        if(A[i][j]==c2 && A[i][j+1]==c2 && A[i][j+2]==c2 && A[i][j+3]==c2) return 2;
+        }
+    }
+    //check vertical for p2
+    fr(i,7){
+        fr(j,10){
+            if(A[i][j]==c2 && A[i+1][j]==c2 && A[i+2][j]==c2 && A[i+3][j]==c2) return 2;
+        }
+    }
+
+    //check principal diagonal for p2
+    for(int i=3; i<10;i++) {
+        fr(j,7){
+            if(A[i][j]==c2 && A[i-1][j+1]==c2 && A[i-2][j+2]==c2 && A[i-3][j+3]==c2) return 2;
+        }
+    }
+    //check geometrical diagonal for p2
+    for(int i=3; i<10;i++) {
+       for(int j=9; j>=3; j--){
+            if(A[i][j]==c2 && A[i-1][j-1]==c2 && A[i-2][j-2]==c2 && A[i-3][j-3]==c2) return 2;
+        }
+    }
+
+    return 0;
+}
+
+
+int main(){
+    string p1,p2; char c1,c2;
+    bool re=true; char replay='n';
+    int w1=0,w2=0,gamecount=0,tiecount=0;
+    cout<<"Enter player 1 Name and character: ";
+    cin>>p1>>c1;
+    cout<<"Enter player 2 Name and character: ";
+    cin>>p2>>c2;
+
+
+//cout<<"\n";
+
+while(re){
+printf("\e[1;1H\e[2J");
+    cout<<"Player 1: "<<p1<<" v/s Player 2: "<<p2<<"\n";
+fr(i,10) cout<<i<<' ';
+    cout<<"\n";
+    char A[10][10];
+    fr(i,10) fr(j,10) A[i][j]='.';
+    fr(i,10){
+        {
+        fr(j,10) cout<<A[i][j]<<' ';
+        } 
+        cout<<"\n";
+      }
+
+fr(i,50){
+    int winner=win(A,c1,c2);
+bool p1f = true;
+bool t = true;
+
+while (p1f) {
+    int a;
+    t = true; // Reset f for each iteration of the outer loop
+    while (t) {
+        cout << "\nEnter your choice player 1: ";
+        cin >> a;
+        if (a > 9 || a < 0) {
+            printf("\e[1;1H\e[2J");
+
+cout<<"Player 1: "<<p1<<" v/s Player 2: "<<p2<<"\n";
+    fr(o,10) cout<<o<<' ';
+        cout<<"\n";
+    fr(l,10){
+        {
+        fr(m,10) cout<<A[l][m]<<' ';
+        } 
+        cout<<"\n";
+      }
+            cout << "\nNot a valid choice.\n";
+        } else {
+            t = false; // Set f to false to exit the inner loop
+        }
+    }
+    cout << "\n";
+    // Check if the chosen column is available
+    bool columnAvailable = false;
+    for (int k = 9; k >= 0; k--) {
+        if (A[k][a] == '.') {
+            A[k][a] = c1;
+            p1f = false;   // Exit the outer loop as a valid choice is made
+            columnAvailable = true;
+            break;
+        }
+    }
+    if (!columnAvailable) {
+        printf("\e[1;1H\e[2J");
+
+cout<<"Player 1: "<<p1<<" v/s Player 2: "<<p2<<"\n";
+    fr(o,10) cout<<o<<' ';
+        cout<<"\n";
+    fr(l,10){
+        {
+        fr(m,10) cout<<A[l][m]<<' ';
+        } 
+        cout<<"\n";
+      }
+        cout << "\nNot a valid choice.\n";
+    }
+}
+
+printf("\e[1;1H\e[2J");
+
+cout<<"Player 1: "<<p1<<" v/s Player 2: "<<p2<<"\n";
+    fr(o,10) cout<<o<<' ';
+        cout<<"\n";
+    fr(l,10){
+        {
+        fr(m,10) cout<<A[l][m]<<' ';
+        } 
+        cout<<"\n";
+      }
+
+winner=win(A,c1,c2);  
+
+if(winner==1) {
+    cout<<"Player 1 wins.\n";
+    w1++; gamecount++;
+    cout<<"Do you want to play again? \n Yes(Y) or No(N): ";
+    cin>>replay;
+    if(replay=='Y'|| replay=='y') {re=true;}
+    else { 
+        cout<<"Score of Player1: "<<w1<<"\nScore of Player2:  "<<w2<<"\nTie Count: "<<tiecount<<"\nTotal Games Played: "<<gamecount<<"\n";
+         endtimer();;
+        re=false;
+       }
+    break;
+}
+else if(winner==2){
+    cout<<"Player 2 wins.\n";
+    w2++; gamecount++;
+    cout<<"Do you want to play again? \n Yes(Y) or No(N): ";
+    cin>>replay;
+    if(replay=='Y'|| replay=='y') {re=true;}
+    else {
+         cout<<"Score of Player1: "<<w1<<"\nScore of Player2:  "<<w2<<"\nTie Count: "<<tiecount<<"\nTotal Games Played: "<<gamecount<<"\n";
+         endtimer();;
+        re=false;
+        }
+    break;
+}
+
+bool p2f = true;
+bool f = true;
+
+while (p2f) {
+    int b;
+    f = true; // Reset f for each iteration of the outer loop
+    while (f) {
+        cout << "\nEnter your choice player 2: ";
+        cin >> b;
+        if (b > 9 || b < 0) {
+            printf("\e[1;1H\e[2J");
+
+cout<<"Player 1: "<<p1<<" v/s Player 2: "<<p2<<"\n";
+    fr(o,10) cout<<o<<' ';
+        cout<<"\n";
+    fr(l,10){
+        {
+        fr(m,10) cout<<A[l][m]<<' ';
+        } 
+        cout<<"\n";
+      }
+            cout << "\nNot a valid choice.\n";
+        } else {
+            f = false; // Set f to false to exit the inner loop
+        }
+    }
+    cout << "\n";
+    // Check if the chosen column is available
+    bool columnAvailable = false;
+    for (int k = 9; k >= 0; k--) {
+        if (A[k][b] == '.') {
+            A[k][b] = c2;
+            p2f = false;   // Exit the outer loop as a valid choice is made
+            columnAvailable = true;
+            break;
+        }
+    }
+    if (!columnAvailable) {
+        printf("\e[1;1H\e[2J");
+
+cout<<"Player 1: "<<p1<<" v/s Player 2: "<<p2<<"\n";
+    fr(o,10) cout<<o<<' ';
+        cout<<"\n";
+    fr(l,10){
+        {
+        fr(m,10) cout<<A[l][m]<<' ';
+        } 
+        cout<<"\n";
+      }
+        cout << "\nNot a valid choice.\n";
+        
+    }
+}
+
+
+printf("\e[1;1H\e[2J");
+
+cout<<"Player 1: "<<p1<<" v/s Player 2: "<<p2<<"\n";
+    fr(o,10) cout<<o<<' ';
+        cout<<"\n";
+fr(l,10){
+        {
+        fr(m,10) cout<<A[l][m]<<' ';
+        } 
+        cout<<"\n";
+      }
+
+winner=win(A,c1,c2);
+
+if(winner==1) {
+    cout<<"Player 1 wins.\n";
+    w1++; gamecount++;
+    cout<<"Do you want to play again? \n Yes(Y) or No(N): ";
+    cin>>replay;
+    if(replay=='Y'|| replay=='y') {re=true;}
+    else {
+ cout<<"Score of Player1: "<<w1<<"\nScore of Player2:  "<<w2<<"\nTie Count: "<<tiecount<<"\nTotal Games Played: "<<gamecount<<"\n";
+         endtimer();;
+         re=false;}
+    break;
+}
+else if(winner==2){
+    cout<<"Player 2 wins.\n";
+    w2++; gamecount++;
+    cout<<"Do you want to play again? \n Yes(Y) or No(N): ";
+    cin>>replay;
+    if(replay=='Y'|| replay=='y') {re=true;}
+    else {
+ cout<<"Score of Player1: "<<w1<<"\nScore of Player2:  "<<w2<<"\nTie Count: "<<tiecount<<"\nTotal Games Played: "<<gamecount<<"\n";
+         endtimer();;
+         re=false;}
+    break;
+}
+if(i==49) {
+    cout<<"\nNobody Wins!! It's a tie.\n";
+    tiecount++; gamecount++;
+    cout<<"Do you want to play again? \n Yes(Y) or No(N): ";
+    cin>>replay;
+    if(replay=='Y'|| replay=='y') {re=true;}
+    else {
+ cout<<"Score of Player1: "<<w1<<"\nScore of Player2:  "<<w2<<"\nTie Count: "<<tiecount<<"\nTotal Games Played: "<<gamecount<<"\n";
+        endtimer();;
+         re=false;}
+    }
+}
+}
+}   
